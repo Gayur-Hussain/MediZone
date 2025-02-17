@@ -2,11 +2,14 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
+import { useState } from "react";
 
 export default function Sidebar() {
 	const pathname = usePathname();
 	const router = useRouter();
+
+	const [isSheetOpen, setIsSheetOpen] = useState(false);
 
 	const navItems = [
 		{ title: "Dashboard", href: "/dashboard" },
@@ -48,7 +51,7 @@ export default function Sidebar() {
 
 			{/* Mobile Sidebar */}
 			<div className="md:hidden fixed top-4 left-4 z-50">
-				<Sheet>
+				<Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
 					<SheetTrigger asChild>
 						<Button variant="outline" size="icon">
 							<Menu className="h-4 w-4" />
@@ -58,11 +61,6 @@ export default function Sidebar() {
 						<div className="space-y-4">
 							<div className="flex justify-between items-center">
 								<h2 className="text-xl font-bold">Dashboard</h2>
-								<SheetTrigger asChild>
-									<Button variant="ghost" size="icon">
-										<X className="h-4 w-4" />
-									</Button>
-								</SheetTrigger>
 							</div>
 							<div className="space-y-2">
 								{navItems.map((item) => (
@@ -79,6 +77,7 @@ export default function Sidebar() {
 												? "page"
 												: undefined
 										}
+										onClick={() => setIsSheetOpen(false)} // Close sidebar on link click
 									>
 										{item.title}
 									</Link>

@@ -19,6 +19,18 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from "@/components/ui/drawer";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
 import { removeImageAction } from "@/actions/imageRemove";
 import { removeProductAction } from "@/actions/admin";
 import { ProductContext } from "@/context";
@@ -49,6 +61,7 @@ const ProductCard = ({ product, refetchProducts }) => {
 		refetchProducts();
 		toast({
 			title: res.message,
+			variant: "success",
 		});
 		setLoading(false);
 	}
@@ -176,15 +189,42 @@ const ProductCard = ({ product, refetchProducts }) => {
 								className="w-5 h-5 border-4 border-dashed rounded-full "
 							></motion.ul>
 						) : (
-							<Trash2
-								onClick={() =>
-									handleDeleteProduct(
-										product?._id,
-										product?.imageKey
-									)
-								}
-								className="text-red-600"
-							/>
+							<>
+								<AlertDialog>
+									<AlertDialogTrigger>
+										<Trash2 className="text-red-600" />
+									</AlertDialogTrigger>
+									<AlertDialogContent>
+										<AlertDialogHeader>
+											<AlertDialogTitle>
+												Are you absolutely sure?
+											</AlertDialogTitle>
+											<AlertDialogDescription>
+												This action cannot be undone.
+												This will permanently delete
+												your product.
+											</AlertDialogDescription>
+										</AlertDialogHeader>
+										<AlertDialogFooter>
+											<AlertDialogCancel>
+												Cancel
+											</AlertDialogCancel>
+											<AlertDialogAction>
+												<Button
+													onClick={() =>
+														handleDeleteProduct(
+															product?._id,
+															product?.imageKey
+														)
+													}
+												>
+													Continue
+												</Button>
+											</AlertDialogAction>
+										</AlertDialogFooter>
+									</AlertDialogContent>
+								</AlertDialog>
+							</>
 						)}
 					</div>
 				</div>

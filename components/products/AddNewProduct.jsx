@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "../ui/button";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
 	Dialog,
 	DialogContent,
@@ -41,8 +41,6 @@ const AddNewProduct = ({ refetchProducts }) => {
 			return false; // For other types, return false
 		});
 	}
-
-	console.log(formData);
 
 	return (
 		<Dialog
