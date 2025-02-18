@@ -1,21 +1,23 @@
 "use client";
 
-import ProductsList from "../ProductsList";
-import SearchAndCategory from "./SearchAndCategory";
-import AddNewProduct from "./AddNewProduct";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
+import SearchAndCategory from "../products/SearchAndCategory";
 import { useSelector, useDispatch } from "react-redux";
+import { Rabbit } from "lucide-react";
 import {
 	productsApi,
 	setSearch,
 	setCategory,
 	setPage,
 } from "@/store/slices/productSlice";
-import { Loader } from "lucide-react";
-import { Button } from "../ui/button";
 
-const Products = () => {
+import { Loader } from "lucide-react";
+import ClientProductList from "./ClientProductList";
+
+const HomeProductsList = () => {
 	const dispatch = useDispatch();
+
+	// Extract the relevant state from the Redux store
 	const {
 		data: products,
 		loading,
@@ -32,7 +34,8 @@ const Products = () => {
 			dispatch(productsApi({ search, category, page: currentPage }));
 		}, 400); // Delay of 400ms
 
-		return () => clearTimeout(debounceTimeout); // Cleanup the timeout if dependencies change before completion
+		// Cleanup the timeout on dependency change
+		return () => clearTimeout(debounceTimeout);
 	}, [dispatch, search, category, currentPage]);
 
 	// Handle page changes
@@ -48,49 +51,43 @@ const Products = () => {
 		}
 	};
 
-	// Function to refetch products after add or update
-	const refetchProducts = () => {
-		dispatch(productsApi({ search, category, page: currentPage }));
-	};
-
 	return (
-		<div className="md:ml-[250px] pt-5">
-			<div className="flex items-center justify-between gap-4 mb-5">
-				<h1 className="text-2xl sm:text-3xl font-bold">
-					Manage Products
+		<div className="mb-10">
+			<div className="mt-8 md:mt-0">
+				<h1 className="text-2xl md:text-3xl font-extrabold mb-3">
+					Products
 				</h1>
-				<AddNewProduct refetchProducts={refetchProducts} />
-			</div>
-			<hr />
-			<div className="mt-5 flex gap-2 justify-between">
 				{/* Pass dispatch actions to SearchAndCategory */}
 				<SearchAndCategory
 					setSearch={(search) => dispatch(setSearch(search))}
 					setCategory={(category) => dispatch(setCategory(category))}
 				/>
+				<hr className="mt-4" />
 			</div>
 
 			{/* Show loading spinner */}
 			{loading ? (
 				<div className="flex items-center justify-center h-64">
-					<Loader className="w-10 h-10 animate-spin " />
+					<Loader className="w-10 h-10 animate-spin text-gray-500" />
 				</div>
 			) : error ? (
 				<div className="text-center text-red-500">
 					<h1>Failed to load products. Please try again.</h1>
 				</div>
+			) : products.length === 0 ? (
+				<div className="flex items-center justify-center flex-col text-gray-500 mt-10">
+					<Rabbit size={100} />
+					<h1>No products found.</h1>
+				</div>
 			) : (
 				<>
 					{/* Render the product list */}
-					<ProductsList
-						allProducts={products}
-						refetchProducts={refetchProducts}
-					/>
+					<ClientProductList allProducts={products} />
 
-					{/* Render pagination only if products are available and there are multiple pages */}
-					{products.length > 0 && totalPages > 1 && (
-						<div className="flex items-center justify-center md:justify-start mt-10 gap-4 ">
-							<Button
+					{/* Pagination controls only if there are multiple pages */}
+					{totalPages > 1 && (
+						<div className="flex items-center justify-center md:justify-start mt-10 gap-4">
+							<button
 								className={`px-4 py-2 border rounded-md ${
 									currentPage === 1
 										? "cursor-not-allowed"
@@ -100,11 +97,11 @@ const Products = () => {
 								disabled={currentPage === 1}
 							>
 								Previous
-							</Button>
-							<span>
+							</button>
+							<span className="text-gray-600">
 								Page {currentPage} of {totalPages}
 							</span>
-							<Button
+							<button
 								className={`px-4 py-2 border rounded-md ${
 									currentPage === totalPages
 										? "cursor-not-allowed"
@@ -114,7 +111,7 @@ const Products = () => {
 								disabled={currentPage === totalPages}
 							>
 								Next
-							</Button>
+							</button>
 						</div>
 					)}
 				</>
@@ -123,4 +120,4 @@ const Products = () => {
 	);
 };
 
-export default Products;
+export default HomeProductsList;
