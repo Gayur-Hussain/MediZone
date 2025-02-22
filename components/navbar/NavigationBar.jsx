@@ -1,19 +1,19 @@
 "use client";
 
-const { ShoppingCart } = require("lucide-react");
-const { ModeToggle } = require("../ThemeToggle");
+import { ShoppingCart } from "lucide-react";
+import { ModeToggle } from "../ThemeToggle";
 
 import { useRouter } from "next/navigation";
 import React from "react";
 import { Button } from "../ui/button";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
-import { UserButton } from "@clerk/nextjs";
 
-const NavigationBar = () => {
+const NavigationBar = ({ userDetails }) => {
 	const router = useRouter();
 
 	return (
-		<div className="flex justify-between p-4 fixed top-0 dark:bg-background bg-background w-full md:px-28 z-50">
+		<div className="flex justify-between p-4 fixed top-0 dark:bg-background bg-background w-full lg:px-28 z-50">
 			<div>
 				<Link
 					href={"/"}
@@ -23,12 +23,20 @@ const NavigationBar = () => {
 				</Link>
 			</div>
 			<div className="flex items-center gap-4">
-				<Button onClick={() => router.push("/dashboard/products")}>
-					Dashboard
-				</Button>
-				<ShoppingCart onClick={() => router.push("/cart")} />
+				{/* ✅ Always show the cart icon unless the user is an admin */}
+				{!userDetails || userDetails.role !== "admin" ? (
+					<ShoppingCart onClick={() => router.push("/cart")} />
+				) : null}
+
 				<ModeToggle />
-				<UserButton />
+				<SignedOut>
+					<Button>
+						<SignInButton />
+					</Button>
+				</SignedOut>
+				<SignedIn>
+					<UserButton />
+				</SignedIn>
 			</div>
 		</div>
 	);

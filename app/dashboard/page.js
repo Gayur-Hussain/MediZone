@@ -1,12 +1,7 @@
 import React from "react";
-import { auth } from "@clerk/nextjs";
-const Dashboard = () => {
-	const { userId } = auth();
-	return (
-		<div>
-			<h1>User ID: {userId}</h1>
-		</div>
-	);
+
+const Dashboard = async () => {
+	return <div>Dashboard</div>;
 };
 
 export default Dashboard;

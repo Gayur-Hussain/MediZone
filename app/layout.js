@@ -8,7 +8,7 @@ import { Toaster } from "@/components/ui/toaster";
 import CommonLayout from "@/components/commonLayout";
 import { ReduxProvider } from "./providers";
 import { ClerkProvider } from "@clerk/nextjs";
-import NavigationBar from "@/components/navbar/NavigationBar";
+import NavigationBarWrapper from "@/components/navbar/navigationBarWrapper";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -43,7 +43,7 @@ export default function RootLayout({ children }) {
 						/>
 						<ReduxProvider>
 							<CommonLayout>
-								<NavigationBar />
+								<NavigationBarWrapper />
 								{children}
 							</CommonLayout>
 						</ReduxProvider>

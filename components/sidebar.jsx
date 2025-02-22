@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -20,7 +22,7 @@ export default function Sidebar() {
 	return (
 		<>
 			{/* Desktop Sidebar */}
-			<div className="hidden md:block fixed h-screen w-[250px] border-r bg-background p-4 mt-12">
+			<div className="hidden md:block fixed h-screen md:w-[250px] border-r bg-background p-4 mt-12">
 				<div className="space-y-4">
 					<div className="space-y-2">
 						{navItems.map((item) => (
@@ -47,8 +49,8 @@ export default function Sidebar() {
 			<div className="md:hidden fixed top-4 left-4 z-50">
 				<Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
 					<SheetTrigger asChild>
-						<Button variant="outline" size="icon">
-							<Menu className="h-4 w-4" />
+						<Button variant="outline" size="icon" className="mt-10">
+							<Menu className="h-4 w-4 " />
 						</Button>
 					</SheetTrigger>
 					<SheetContent side="left" className="w-[250px]">
