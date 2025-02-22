@@ -209,17 +209,15 @@ const ProductCard = ({ product, refetchProducts }) => {
 											<AlertDialogCancel>
 												Cancel
 											</AlertDialogCancel>
-											<AlertDialogAction>
-												<Button
-													onClick={() =>
-														handleDeleteProduct(
-															product?._id,
-															product?.imageKey
-														)
-													}
-												>
-													Continue
-												</Button>
+											<AlertDialogAction
+												onClick={() =>
+													handleDeleteProduct(
+														product?._id,
+														product?.imageKey
+													)
+												}
+											>
+												Continue
 											</AlertDialogAction>
 										</AlertDialogFooter>
 									</AlertDialogContent>

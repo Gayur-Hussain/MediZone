@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
@@ -13,8 +15,24 @@ import {
 	DrawerTrigger,
 } from "@/components/ui/drawer";
 import { IndianRupee } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from "@/store/slices/cartSlice";
 
 const ClientProductCard = ({ product }) => {
+	const dispatch = useDispatch();
+	const { items } = useSelector((state) => state.cart);
+
+	// Check if the product exists in the cart
+	const isExists = items.some((item) => item._id === product._id);
+
+	function handleAddToCart(product) {
+		dispatch(addToCart(product));
+	}
+
+	function handleRemoveFromCart(product) {
+		dispatch(removeFromCart(product._id));
+	}
+
 	return (
 		<Card className="overflow-hidden shadow-lg rounded-lg">
 			<CardHeader>
@@ -117,8 +135,17 @@ const ClientProductCard = ({ product }) => {
 									<Button variant="secondary">Close</Button>
 								</DrawerClose>
 								<div className="flex justify-center items-center">
-									<Button className="w-full sm:w-auto">
-										Add To Cart
+									<Button
+										onClick={() =>
+											isExists
+												? handleRemoveFromCart(product)
+												: handleAddToCart(product)
+										}
+										className="w-full sm:w-auto"
+									>
+										{isExists
+											? "Remove From Cart"
+											: "Add To Cart"}
 									</Button>
 								</div>
 							</DrawerFooter>

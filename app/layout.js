@@ -7,6 +7,8 @@ import { ourFileRouter } from "./api/uploadthing/core";
 import { Toaster } from "@/components/ui/toaster";
 import CommonLayout from "@/components/commonLayout";
 import { ReduxProvider } from "./providers";
+import { ClerkProvider } from "@clerk/nextjs";
+import NavigationBar from "@/components/navbar/NavigationBar";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -25,25 +27,30 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
 	return (
-		<html lang="en" suppressHydrationWarning>
-			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased `}
-			>
-				<ThemeProviders
-					attribute="class"
-					defaultTheme="system"
-					enableSystem
-					disableTransitionOnChange
+		<ClerkProvider>
+			<html lang="en" suppressHydrationWarning>
+				<body
+					className={`${geistSans.variable} ${geistMono.variable} antialiased `}
 				>
-					<NextSSRPlugin
-						routerConfig={extractRouterConfig(ourFileRouter)}
-					/>
-					<ReduxProvider>
-						<CommonLayout>{children}</CommonLayout>
-					</ReduxProvider>
-					<Toaster />
-				</ThemeProviders>
-			</body>
-		</html>
+					<ThemeProviders
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+						disableTransitionOnChange
+					>
+						<NextSSRPlugin
+							routerConfig={extractRouterConfig(ourFileRouter)}
+						/>
+						<ReduxProvider>
+							<CommonLayout>
+								<NavigationBar />
+								{children}
+							</CommonLayout>
+						</ReduxProvider>
+						<Toaster />
+					</ThemeProviders>
+				</body>
+			</html>
+		</ClerkProvider>
 	);
 }

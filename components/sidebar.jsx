@@ -20,14 +20,8 @@ export default function Sidebar() {
 	return (
 		<>
 			{/* Desktop Sidebar */}
-			<div className="hidden md:block fixed h-screen w-[250px] border-r bg-background p-4">
+			<div className="hidden md:block fixed h-screen w-[250px] border-r bg-background p-4 mt-12">
 				<div className="space-y-4">
-					<h2
-						className="text-xl font-bold px-4 cursor-pointer"
-						onClick={() => router.push("/dashboard")}
-					>
-						Dashboard
-					</h2>
 					<div className="space-y-2">
 						{navItems.map((item) => (
 							<Link
