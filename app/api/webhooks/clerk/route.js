@@ -1,6 +1,6 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
-import User from "@/models/User";
+import User from "@/models/UserModel";
 import connectToDatabase from "@/lib/db";
 
 export async function POST(req) {
