@@ -10,8 +10,9 @@ const CartPage = async () => {
 	userDetails?.data?.role === "admin"
 		? redirect("/dashboard/products")
 		: null;
+
 	return (
-		<div className="px-28">
+		<div className="px-4 sm:px-8 lg:px-28">
 			<Cart />
 		</div>
 	);

@@ -17,20 +17,31 @@ import {
 import { IndianRupee } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "@/store/slices/cartSlice";
+import { useToast } from "@/hooks/use-toast";
 
 const ClientProductCard = ({ product }) => {
 	const dispatch = useDispatch();
 	const { items } = useSelector((state) => state.cart);
+	const { toast } = useToast();
 
 	// Check if the product exists in the cart
 	const isExists = items.some((item) => item._id === product._id);
 
 	function handleAddToCart(product) {
 		dispatch(addToCart(product));
+		toast({
+			title: "Item Added",
+			description: "The item was successfully added to your cart.",
+		});
 	}
 
 	function handleRemoveFromCart(product) {
 		dispatch(removeFromCart(product._id));
+		toast({
+			title: "Item Removed",
+			description: "The item was successfully removed from your cart.",
+			variant: "destructive",
+		});
 	}
 
 	return (

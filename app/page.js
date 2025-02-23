@@ -15,7 +15,7 @@ export default async function Home() {
 		? redirect("/dashboard/products")
 		: null;
 	return (
-		<div className="md:px-28 px-4 ">
+		<div className="md:px-28 px-4 mt-24 md:mt-10 ">
 			<Hero />
 			<HomeProductsList />
 			<Footer />

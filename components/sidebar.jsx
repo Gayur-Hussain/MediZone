@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
@@ -9,7 +9,6 @@ import { useState } from "react";
 
 export default function Sidebar() {
 	const pathname = usePathname();
-	const router = useRouter();
 
 	const [isSheetOpen, setIsSheetOpen] = useState(false);
 
