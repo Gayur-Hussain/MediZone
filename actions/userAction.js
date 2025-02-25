@@ -56,3 +56,43 @@ export async function fetchUserDetailsAction(id) {
 		};
 	}
 }
+
+// ✅ Fetch User Address
+export async function fetchUserAddressAction(userId) {
+	try {
+		await connectToDatabase();
+		const user = await User.findById(userId).lean(); // ✅ Convert to plain object
+		return user?.address || null;
+	} catch (error) {
+		console.error("Error fetching user address:", error.message);
+		throw new Error("Failed to fetch address");
+	}
+}
+
+// ✅ Update User Address
+
+export async function updateUserAddressAction(userId, addressData) {
+	try {
+		await connectToDatabase();
+
+		if (!userId || !addressData) {
+			throw new Error("Invalid userId or address data");
+		}
+
+		// ✅ Directly update the address field
+		const updatedUser = await User.findByIdAndUpdate(
+			userId,
+			{ $set: { address: addressData } },
+			{ new: true }
+		);
+
+		if (!updatedUser) {
+			throw new Error("User not found");
+		}
+
+		return JSON.parse(JSON.stringify(addressData));
+	} catch (error) {
+		console.error("Error updating user address:", error);
+		throw new Error(error.message);
+	}
+}

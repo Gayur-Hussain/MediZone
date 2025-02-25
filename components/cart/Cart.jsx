@@ -23,10 +23,10 @@ const Cart = () => {
 	const router = useRouter();
 	const { toast } = useToast();
 
-	// Handle quantity changes (prevents negative or zero values)
-	const handleQuantityChange = (_id, quantity) => {
-		const newQuantity = Math.max(1, quantity);
-		dispatch(updateCartQuantity({ _id, quantity: newQuantity }));
+	// Handle quantity changes with stock validation
+	const handleQuantityChange = (_id, quantity, stock) => {
+		const newQuantity = Math.max(1, Math.min(quantity, stock)); // Ensure within stock
+		dispatch(updateCartQuantity({ _id, quantity: newQuantity, stock }));
 	};
 
 	// Handle item removal with a ShadCN toast notification
@@ -92,14 +92,21 @@ const Cart = () => {
 											type="number"
 											value={item.quantity}
 											min={1}
+											max={item.stock} // Ensures UI also prevents exceeding stock
 											className="w-12 sm:w-16"
 											onChange={(e) =>
 												handleQuantityChange(
 													item._id,
-													parseInt(e.target.value)
+													parseInt(e.target.value),
+													item.stock
 												)
 											}
 										/>
+										{item.quantity >= item.stock && (
+											<p className="text-red-500 text-sm">
+												Max stock reached
+											</p>
+										)}
 									</TableCell>
 									<TableCell>
 										₹{item.price * item.quantity}
