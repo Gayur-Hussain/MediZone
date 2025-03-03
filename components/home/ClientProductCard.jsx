@@ -103,18 +103,6 @@ const ClientProductCard = ({ product }) => {
 						</p>
 					) : null}
 
-					{/* Quantity Input */}
-					<div className="flex items-center gap-2">
-						<input
-							type="number"
-							value={quantity}
-							onChange={handleQuantityChange}
-							className="w-16 p-2 border rounded"
-							min="1"
-							max={product?.stock}
-						/>
-					</div>
-
 					{/* Details Button */}
 					<Drawer>
 						<DrawerTrigger>
