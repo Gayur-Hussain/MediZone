@@ -18,6 +18,8 @@ import {
 	updateUserAddressAction,
 } from "@/actions/userAction";
 import { useToast } from "@/hooks/use-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCartQuantity } from "@/store/slices/cartSlice";
 
 const Checkout = ({ userId }) => {
 	const { toast } = useToast();
@@ -32,6 +34,9 @@ const Checkout = ({ userId }) => {
 	const [loading, setLoading] = useState(true);
 	const [address, setAddress] = useState(null);
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+	const cartItems = useSelector((state) => state.cart.items);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const loadAddress = async () => {
@@ -288,6 +293,23 @@ const Checkout = ({ userId }) => {
 					</Dialog>
 				)}
 			</CardContent>
+			{/* Show cart with validation and stock information */}
+			<div>
+				{cartItems.map((item) => (
+					<div key={item._id}>
+						<p>{item.name}</p>
+						<p>Price: ${item.price}</p>
+						{/* Show low stock or out of stock */}
+						{item.stock === 0 ? (
+							<p className="text-red-500">Out of stock</p>
+						) : item.stock < 10 ? (
+							<p className="text-yellow-500">
+								Only {item.stock} left!
+							</p>
+						) : null}
+					</div>
+				))}
+			</div>
 		</Card>
 	);
 };

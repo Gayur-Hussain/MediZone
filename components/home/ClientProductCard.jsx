@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { Button } from "../ui/button";
@@ -26,23 +26,44 @@ const ClientProductCard = ({ product }) => {
 
 	// Check if the product exists in the cart
 	const isExists = items.some((item) => item._id === product._id);
+	const [quantity, setQuantity] = useState(1);
 
-	function handleAddToCart(product) {
-		dispatch(addToCart(product));
+	const handleAddToCart = (product) => {
+		if (product.stock === 0) {
+			toast({
+				title: "Out of Stock",
+				description: "This product is currently out of stock.",
+				variant: "destructive",
+			});
+			return;
+		}
+		dispatch(addToCart({ ...product, quantity }));
 		toast({
 			title: "Item Added",
 			description: "The item was successfully added to your cart.",
 		});
-	}
+	};
 
-	function handleRemoveFromCart(product) {
+	const handleRemoveFromCart = (product) => {
 		dispatch(removeFromCart(product._id));
 		toast({
 			title: "Item Removed",
 			description: "The item was successfully removed from your cart.",
 			variant: "destructive",
 		});
-	}
+	};
+
+	// Handle quantity change and ensure it's a valid number
+	const handleQuantityChange = (e) => {
+		let value = parseInt(e.target.value, 10);
+		if (isNaN(value) || value <= 0) {
+			value = 1; // Default to 1 if invalid
+		}
+		if (value > product.stock) {
+			value = product.stock; // Cannot exceed available stock
+		}
+		setQuantity(value);
+	};
 
 	return (
 		<Card className="overflow-hidden shadow-lg rounded-lg">
@@ -72,6 +93,27 @@ const ClientProductCard = ({ product }) => {
 						</span>
 						<span>{product?.price}</span>
 					</span>
+
+					{/* Stock Alert */}
+					{product?.stock === 0 ? (
+						<p className="text-red-500">Out of stock</p>
+					) : product?.stock < 10 ? (
+						<p className="text-yellow-500">
+							Only {product?.stock} left!
+						</p>
+					) : null}
+
+					{/* Quantity Input */}
+					<div className="flex items-center gap-2">
+						<input
+							type="number"
+							value={quantity}
+							onChange={handleQuantityChange}
+							className="w-16 p-2 border rounded"
+							min="1"
+							max={product?.stock}
+						/>
+					</div>
 
 					{/* Details Button */}
 					<Drawer>

@@ -1,4 +1,4 @@
-const { createSlice } = require("@reduxjs/toolkit");
+import { createSlice } from "@reduxjs/toolkit";
 
 // Load cart from localStorage safely
 const loadCartFromLocalStorage = () => {
@@ -44,21 +44,26 @@ const cartSlice = createSlice({
 			} else {
 				state.items.push({ ...action.payload, quantity: 1 });
 			}
-			saveCartToLocalStorage([...state.items]); // Save updated cart to localStorage
+			saveCartToLocalStorage(state.items); // Save updated cart to localStorage
 		},
 		removeFromCart: (state, action) => {
 			state.items = state.items.filter(
 				(item) => item._id !== action.payload
 			);
-			saveCartToLocalStorage([...state.items]); // Save after removal
+			saveCartToLocalStorage(state.items); // Save after removal
 		},
 		updateCartQuantity: (state, action) => {
 			const { _id, quantity, stock } = action.payload;
 			const item = state.items.find((item) => item._id === _id);
 			if (item) {
-				item.quantity = Math.max(1, Math.min(quantity, stock)); // Ensure quantity is within stock limits
+				// Handle invalid quantity (NaN or empty) and ensure quantity is within stock limits
+				const updatedQuantity =
+					isNaN(quantity) || quantity <= 0
+						? 1
+						: Math.min(quantity, stock);
+				item.quantity = updatedQuantity;
 			}
-			saveCartToLocalStorage([...state.items]); // Save updated cart to localStorage
+			saveCartToLocalStorage(state.items); // Save updated cart to localStorage
 		},
 		clearCart: (state) => {
 			state.items = [];
@@ -67,6 +72,7 @@ const cartSlice = createSlice({
 	},
 });
 
+// Export actions and reducer
 export const { addToCart, removeFromCart, updateCartQuantity, clearCart } =
 	cartSlice.actions;
 export default cartSlice.reducer;

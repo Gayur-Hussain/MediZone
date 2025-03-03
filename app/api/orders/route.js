@@ -6,11 +6,7 @@ export async function GET() {
 	try {
 		await connectToDatabase(); // Connect to the database
 
-		const orders = await Order.find()
-			.populate("userId") // Populate user details
-			.populate("products.productId") // Populate product details
-			.limit(1)
-			.exec();
+		const orders = await Order.find().populate("userId").limit(1).exec();
 
 		return NextResponse.json(
 			{ success: true, data: orders },
