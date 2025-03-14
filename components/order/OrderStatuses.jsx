@@ -32,7 +32,7 @@ const OrderStatuses = ({ orderCounts }) => {
 	];
 
 	return (
-		<div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+		<div className="grid grid-cols-2 gap-4 mt-8">
 			{statusList.map((status, index) => (
 				<div
 					key={index}

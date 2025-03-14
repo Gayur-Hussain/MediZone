@@ -8,6 +8,7 @@ import React from "react";
 import { Button } from "../ui/button";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import ProfileDropdown from "../profile/ProfileDropdown";
 
 const NavigationBar = ({ userDetails }) => {
 	const router = useRouter();
@@ -27,7 +28,6 @@ const NavigationBar = ({ userDetails }) => {
 				{!userDetails || userDetails.role !== "admin" ? (
 					<ShoppingCart onClick={() => router.push("/cart")} />
 				) : null}
-
 				<ModeToggle />
 				<SignedOut>
 					<Button>
@@ -35,7 +35,11 @@ const NavigationBar = ({ userDetails }) => {
 					</Button>
 				</SignedOut>
 				<SignedIn>
-					<UserButton />
+					{!userDetails || userDetails.role !== "admin" ? (
+						<ProfileDropdown userDetails={userDetails} />
+					) : (
+						<UserButton />
+					)}
 				</SignedIn>
 			</div>
 		</div>
