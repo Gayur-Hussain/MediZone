@@ -3,7 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+	Sheet,
+	SheetContent,
+	SheetTitle,
+	SheetTrigger,
+} from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { useState } from "react";
 
@@ -53,6 +58,7 @@ export default function Sidebar() {
 						</Button>
 					</SheetTrigger>
 					<SheetContent side="left" className="w-[250px]">
+						<SheetTitle></SheetTitle>
 						<div className="space-y-4">
 							<div className="flex justify-between items-center">
 								<h2 className="text-xl font-bold">Dashboard</h2>

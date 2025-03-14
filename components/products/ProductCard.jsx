@@ -104,8 +104,8 @@ const ProductCard = ({ product, refetchProducts }) => {
 			<CardFooter>
 				<div className="flex items-center w-full justify-around gap-4">
 					<Drawer>
-						<DrawerTrigger>
-							<Button>Details</Button>
+						<DrawerTrigger className="bg-primary p-2 rounded-md">
+							Details
 						</DrawerTrigger>
 						<DrawerContent className="p-6">
 							<div className="flex flex-col lg:flex-row gap-6">
@@ -165,9 +165,7 @@ const ProductCard = ({ product, refetchProducts }) => {
 							</div>
 
 							<DrawerFooter className="mt-6 flex justify-end">
-								<DrawerClose>
-									<Button variant="secondary">Close</Button>
-								</DrawerClose>
+								<DrawerClose>Close</DrawerClose>
 							</DrawerFooter>
 						</DrawerContent>
 					</Drawer>

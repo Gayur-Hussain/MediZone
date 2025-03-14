@@ -29,6 +29,10 @@ export default function RootLayout({ children }) {
 	return (
 		<ClerkProvider>
 			<html lang="en" suppressHydrationWarning>
+				<meta
+					name="google-site-verification"
+					content="UlbYXEo--oTN6_3k6_LsXJWGt2_rhSLxk8yM-AbAL6A"
+				/>
 				<body
 					className={`${geistSans.variable} ${geistMono.variable} antialiased `}
 				>
