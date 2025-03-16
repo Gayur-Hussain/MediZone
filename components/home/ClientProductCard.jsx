@@ -71,7 +71,7 @@ const ClientProductCard = ({ product }) => {
 				<div className="flex flex-col items-center">
 					{/* Product Image */}
 					<Image
-						className="h-40 w-36 object-cover rounded-md"
+						className="h-20, w-16 md:h-40 md:w-36 object-cover rounded-md"
 						src={product?.imageUrl}
 						height={400}
 						width={300}
@@ -83,7 +83,7 @@ const ClientProductCard = ({ product }) => {
 			<CardFooter>
 				<div className="flex flex-col items-start gap-4">
 					{/* Product Name */}
-					<CardTitle className="mt-3 text-2xl font-bold text-left">
+					<CardTitle className="mt-3 md:text-2xl font-bold text-left">
 						{product?.name}
 					</CardTitle>
 					{/* Price */}
@@ -96,7 +96,9 @@ const ClientProductCard = ({ product }) => {
 
 					{/* Stock Alert */}
 					{product?.stock === 0 ? (
-						<p className="text-red-500">Out of stock</p>
+						<p className="text-red-500 text-sm md:text-md">
+							Out of stock
+						</p>
 					) : product?.stock < 10 ? (
 						<p className="text-yellow-500">
 							Only {product?.stock} left!
