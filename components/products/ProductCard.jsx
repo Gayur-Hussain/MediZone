@@ -83,9 +83,19 @@ const ProductCard = ({ product, refetchProducts }) => {
 		setImageKey(product?.imageKey);
 		setImageUrl(product?.imageUrl);
 	}
-
+	console.log(product);
 	return (
-		<Card className="overflow-hidden">
+		<Card className="overflow-hidden relative">
+			{/* Stock Alert */}
+			{product?.stock === 0 ? (
+				<p className="text-red-500 text-sm md:text-md absolute top-0 right-0 bg-gray-200 dark:bg-gray-400 p-1">
+					Out of stock
+				</p>
+			) : product?.stock < 10 ? (
+				<p className="text-yellow-500 text-sm md:text-md  absolute top-0 right-0 dark:bg-gray-600 bg-gray-200 p-1">
+					Only {product?.stock} left!
+				</p>
+			) : null}
 			<CardHeader>
 				<div className="flex items-center justify-around">
 					<Image
@@ -104,7 +114,7 @@ const ProductCard = ({ product, refetchProducts }) => {
 			<CardFooter>
 				<div className="flex items-center w-full justify-around gap-4">
 					<Drawer>
-						<DrawerTrigger className="bg-primary p-2 rounded-md">
+						<DrawerTrigger className="bg-primary p-2 rounded-md text-background">
 							Details
 						</DrawerTrigger>
 						<DrawerContent className="p-6">

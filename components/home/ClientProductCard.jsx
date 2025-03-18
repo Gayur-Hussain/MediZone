@@ -66,8 +66,18 @@ const ClientProductCard = ({ product }) => {
 	};
 
 	return (
-		<Card className="overflow-hidden shadow-lg rounded-lg">
+		<Card className="overflow-hidden shadow-lg rounded-lg relative">
 			<CardHeader>
+				{/* Stock Alert */}
+				{product?.stock === 0 ? (
+					<p className="text-red-500 text-sm md:text-md absolute top-0 right-0 bg-gray-200 dark:bg-gray-300 p-1">
+						Out of stock
+					</p>
+				) : product?.stock < 10 ? (
+					<p className="text-yellow-500 text-sm md:text-md  absolute top-0 right-0 dark:bg-gray-600 bg-gray-200 p-1">
+						Only {product?.stock} left!
+					</p>
+				) : null}
 				<div className="flex flex-col items-center">
 					{/* Product Image */}
 					<Image
@@ -83,7 +93,7 @@ const ClientProductCard = ({ product }) => {
 			<CardFooter>
 				<div className="flex flex-col items-start gap-4">
 					{/* Product Name */}
-					<CardTitle className="mt-3 md:text-2xl font-bold text-left">
+					<CardTitle className="mt-3 md:text-xl font-bold text-left">
 						{product?.name}
 					</CardTitle>
 					{/* Price */}
@@ -94,21 +104,12 @@ const ClientProductCard = ({ product }) => {
 						<span>{product?.price}</span>
 					</span>
 
-					{/* Stock Alert */}
-					{product?.stock === 0 ? (
-						<p className="text-red-500 text-sm md:text-md">
-							Out of stock
-						</p>
-					) : product?.stock < 10 ? (
-						<p className="text-yellow-500">
-							Only {product?.stock} left!
-						</p>
-					) : null}
-
 					{/* Details Button */}
 					<Drawer>
 						<DrawerTrigger>
-							<Button className="text-sm">View Details</Button>
+							<span className="bg-primary text-background p-2 rounded-md px-4 ">
+								View
+							</span>
 						</DrawerTrigger>
 						<DrawerContent className="p-6">
 							{/* Drawer Content */}

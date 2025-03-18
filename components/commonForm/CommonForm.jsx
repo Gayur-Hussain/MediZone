@@ -200,7 +200,7 @@ const CommonForm = ({
 								</Button>
 							</div>
 						) : (
-							<div className=" border-rose-600 border rounded-lg p-2">
+							<div className=" border-primary border rounded-lg p-2">
 								<UploadButton
 									endpoint="imageUploader"
 									onClientUploadComplete={(res) => {

@@ -3,12 +3,12 @@ import React from "react";
 
 const Hero = () => {
 	return (
-		<div className="flex flex-col mt-10 sm:mt-0 lg:flex-row md:w-full md:min-h-screen gap-10 items-center justify-between px-4 md:px-10">
+		<div className="flex flex-col mt-24 sm:mt-0 lg:flex-row md:w-full lg:min-h-screen gap-10 items-center justify-between">
 			{/* Left Content */}
 			<div className="text-center md:text-left md:mt-24 lg:mt-0">
 				<h1 className="text-3xl md:text-3xl lg:text-5xl font-extrabold leading-tight lg:max-w-[80%]">
 					Your Trusted Source for Quality Medicines in{" "}
-					<span className="text-rose-600">Bilaspur</span>
+					<span className="text-primary">Bilaspur</span>
 				</h1>
 				<h2 className="mt-4 text-lg md:text-xl">
 					Order High-Quality Medicines at Competitive Prices

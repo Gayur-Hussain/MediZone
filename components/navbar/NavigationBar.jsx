@@ -18,7 +18,7 @@ const NavigationBar = ({ userDetails }) => {
 			<div>
 				<Link
 					href={"/"}
-					className="font-extrabold text-2xl lg:text-4xl text-rose-600"
+					className="font-extrabold text-2xl lg:text-4xl text-primary"
 				>
 					Medi-Zone
 				</Link>
