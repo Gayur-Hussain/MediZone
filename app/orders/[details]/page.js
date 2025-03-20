@@ -1,21 +1,39 @@
+// Assuming this is a server action to fetch the order
 import { fetchSpecificUserOrder } from "@/actions/userOrders";
 import SpecificOrderDetails from "@/components/orderPage/SpecificOrderDetails";
 
 const OrderDetails = async ({ params }) => {
-	// Destructure the orderId from params.details
-	const { details: orderId } = params;
+	try {
+		const { details: orderId } = params;
 
-	// Fetch order data using the orderId
-	const response = await fetchSpecificUserOrder(orderId);
+		// Log orderId to confirm it’s being passed correctly
+		console.log("Order ID:", orderId);
 
-	// Optionally log the response data to check if it's correct
-	console.log(response?.data);
+		// Fetch the order data using the server action
+		const response = await fetchSpecificUserOrder(orderId);
 
-	return (
-		<div className="px-4 mt-24 lg:px-28">
-			<SpecificOrderDetails order={response?.data} />
-		</div>
-	);
+		// Log the response to check if data is being returned correctly
+		console.log("Fetched Order Data:", response?.data);
+
+		if (!response?.data) {
+			throw new Error("No data found for this order.");
+		}
+
+		return (
+			<div className="px-4 mt-24 lg:px-28">
+				<SpecificOrderDetails order={response?.data} />
+			</div>
+		);
+	} catch (error) {
+		// Catch any errors that happen in the try block
+		console.error("Error fetching order:", error);
+
+		return (
+			<div className="px-4 mt-24 lg:px-28">
+				<h1>Error loading order details. Please try again later.</h1>
+			</div>
+		);
+	}
 };
 
 export default OrderDetails;

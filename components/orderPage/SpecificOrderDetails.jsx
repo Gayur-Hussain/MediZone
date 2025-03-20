@@ -23,13 +23,14 @@ const SpecificOrderDetails = ({ order }) => {
 	return (
 		<div className="max-w-screen-xl mx-auto px-4 mb-10">
 			{/* Order Overview */}
-			<div className="border-b pb-4 mb-6">
+			<div className="border-b pb-4 mb-6 ">
 				<h1 className="text-xl lg:text-3xl font-bold ">
 					Order Overview
 				</h1>
-				<div className="space-y-2 mt-4">
-					<p>
-						<strong>Order ID:</strong> {order?._id}
+				<div className="space-y-2 mt-4 lg:flex lg:items-center lg:gap-10">
+					<p className="mt-2">
+						<strong>Order ID:</strong>{" "}
+						<span className="text-blue-400">{order?._id}</span>
 					</p>
 					<p>
 						<strong>Order Date:</strong>{" "}
