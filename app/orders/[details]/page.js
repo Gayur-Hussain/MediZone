@@ -1,10 +1,16 @@
 import { fetchSpecificUserOrder } from "@/actions/userOrders";
+import SpecificOrderDetails from "@/components/orderPage/SpecificOrderDetails";
 import React from "react";
 
 const OrderDetails = async ({ params }) => {
-	const response = await fetchSpecificUserOrder(params?.details);
+	const { details: orderId } = await params;
+	const response = await fetchSpecificUserOrder(orderId);
 	// console.log(response?.data);
-	return <div className="px-4 mt-24 lg:px-28">{response?.data?.status}</div>;
+	return (
+		<div className="px-4 mt-24 lg:px-28">
+			<SpecificOrderDetails order={response?.data} />
+		</div>
+	);
 };
 
 export default OrderDetails;

@@ -29,7 +29,10 @@ export async function fetchUserOrdersAction(userId) {
 export async function fetchSpecificUserOrder(orderId) {
 	try {
 		await connectToDatabase();
-		const result = await Order.findById(orderId);
+		const result = await Order.findById(orderId)
+			.populate("userId")
+			.populate("products.productId")
+			.exec();
 		if (!result) {
 			return {
 				success: false,

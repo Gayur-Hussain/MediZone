@@ -5,6 +5,15 @@ import { updateOrderStatus } from "@/actions/orderAction";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table";
+import OrderStatuses from "../order/OrderStatuses";
 
 export default function AdminOrders({ orders: initialOrders }) {
 	const [orders, setOrders] = useState(initialOrders);
@@ -14,13 +23,28 @@ export default function AdminOrders({ orders: initialOrders }) {
 	const [selectedStatus, setSelectedStatus] = useState("All");
 	const router = useRouter();
 
+	// Calculate the order counts based on the statuses
+	const getOrderCounts = () => {
+		const counts = {
+			Pending: 0,
+			Processing: 0,
+			Completed: 0,
+			Cancelled: 0,
+		};
+
+		orders.forEach((order) => {
+			if (order.status === "Pending") counts.Pending++;
+			if (order.status === "Processing") counts.Processing++;
+			if (order.status === "Completed") counts.Completed++;
+			if (order.status === "Cancelled") counts.Cancelled++;
+		});
+
+		return counts;
+	};
+
 	const filteredOrders = orders.filter(
 		(order) => selectedStatus === "All" || order.status === selectedStatus
 	);
-
-	const toggleOrderDetails = (orderId) => {
-		setExpandedOrder(expandedOrder === orderId ? null : orderId);
-	};
 
 	const handleStatusUpdate = async (
 		orderId,
@@ -60,12 +84,12 @@ export default function AdminOrders({ orders: initialOrders }) {
 	};
 
 	return (
-		<div className="p-4">
-			<div className="flex justify-between items-center w-full mb-6">
-				<h1 className="text-2xl font-semibold">Admin Orders</h1>
-			</div>
+		<div className="p-4 max-w-full">
+			{/* Display the Order Status counts */}
+			<OrderStatuses orderCounts={getOrderCounts()} />
 
-			<div className="mb-4 grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+			{/* Filter Buttons */}
+			<div className="mb-4 flex flex-wrap gap-4">
 				{["All", "Pending", "Processing", "Completed", "Cancelled"].map(
 					(status) => (
 						<motion.button
@@ -83,114 +107,80 @@ export default function AdminOrders({ orders: initialOrders }) {
 				)}
 			</div>
 
-			<ul className="space-y-4">
-				{filteredOrders.map((order) => (
-					<motion.li
-						key={order._id}
-						className="border rounded-lg p-4 shadow-md"
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						transition={{ duration: 0.5 }}
-					>
-						<div
-							className="cursor-pointer flex justify-between items-center"
-							onClick={() => toggleOrderDetails(order._id)}
-						>
-							<div>
-								<p className="font-semibold">
-									<strong>Order ID:</strong> {order._id}
-								</p>
-								<p>
-									<strong>Status:</strong> {order.status}
-								</p>
-								<p>
-									<strong>User Email:</strong>{" "}
-									{order.userId.email}
-								</p>
-								<p>
-									<strong>Delivery Address:</strong>{" "}
-									{order.deliveryAddress.street},{" "}
-									{order.deliveryAddress.city}
-								</p>
-							</div>
-							<span className="text-lg">
-								{expandedOrder === order._id ? "▲" : "▼"}
-							</span>
-						</div>
-
-						{expandedOrder === order._id && (
-							<motion.div
-								className="mt-2 p-4 rounded-md"
+			{/* Table */}
+			<div className="overflow-x-auto">
+				<Table className="min-w-full">
+					<TableHeader>
+						<TableRow>
+							<TableHead>Order ID</TableHead>
+							<TableHead>Status</TableHead>
+							<TableHead>User Email</TableHead>
+							<TableHead className="hidden sm:table-cell">
+								Delivery Address
+							</TableHead>
+							<TableHead>Action</TableHead>
+						</TableRow>
+					</TableHeader>
+					<TableBody>
+						{filteredOrders.map((order) => (
+							<motion.tr
+								key={order._id}
 								initial={{ opacity: 0 }}
 								animate={{ opacity: 1 }}
-								transition={{ duration: 0.4 }}
+								transition={{ duration: 0.5 }}
 							>
-								<p>
-									<strong>Total Amount:</strong> ₹
-									{order.totalAmount}
-								</p>
-								<p>
-									<strong>Payment:</strong>{" "}
-									{order.paymentMethod}
-								</p>
-								<h3 className="mt-2 font-semibold">
-									Products:
-								</h3>
-								<ul>
-									{order.products.map((product) => (
-										<li
-											key={product.productId}
-											className="text-sm"
-										>
-											{product.name} (x{product.quantity})
-											- ₹{product.price}
-										</li>
-									))}
-								</ul>
-
-								<div className="mt-4">
-									<label className="block font-semibold">
-										Update Status:
-									</label>
-									<select
-										className="border p-2 rounded-md w-full"
-										value={order.status}
-										onChange={(e) =>
-											handleStatusUpdate(
-												order._id,
-												order.status,
-												e.target.value,
-												order.products
-											)
-										}
-										disabled={
-											isPending ||
-											order.status === "Completed" ||
-											order.status === "Cancelled"
-										}
-									>
-										<option value="Pending">Pending</option>
-										<option value="Processing">
-											Processing
-										</option>
-										<option
-											value="Completed"
+								<TableCell>{order._id}</TableCell>
+								<TableCell>{order.status}</TableCell>
+								<TableCell>{order.userId.email}</TableCell>
+								<TableCell className="hidden sm:table-cell">
+									{order.deliveryAddress.street},{" "}
+									{order.deliveryAddress.city}
+								</TableCell>
+								<TableCell>
+									<div className="flex items-center gap-2">
+										{/* Status Dropdown */}
+										<select
+											className="border p-2 rounded-md w-full sm:w-auto"
+											value={order.status}
+											onChange={(e) =>
+												handleStatusUpdate(
+													order._id,
+													order.status,
+													e.target.value,
+													order.products
+												)
+											}
 											disabled={
-												order.status === "Pending"
+												isPending ||
+												order.status === "Completed" ||
+												order.status === "Cancelled"
 											}
 										>
-											Completed
-										</option>
-										<option value="Cancelled">
-											Cancelled
-										</option>
-									</select>
-								</div>
-							</motion.div>
-						)}
-					</motion.li>
-				))}
-			</ul>
+											<option value="Pending">
+												Pending
+											</option>
+											<option value="Processing">
+												Processing
+											</option>
+											<option
+												value="Completed"
+												disabled={
+													order.status === "Pending"
+												}
+											>
+												Completed
+											</option>
+											<option value="Cancelled">
+												Cancelled
+											</option>
+										</select>
+									</div>
+								</TableCell>
+							</motion.tr>
+						))}
+					</TableBody>
+				</Table>
+			</div>
 		</div>
 	);
 }

@@ -25,8 +25,7 @@ export default async function Orders() {
 	return (
 		<div className="md:ml-[250px] p-4">
 			<h1 className="text-2xl font-semibold mb-4">Orders Management</h1>
-			{/* Pass orderCounts as a prop to OrderStatuses */}
-			<OrderStatuses orderCounts={orderCounts} />
+
 			{/* Pass fetched orders to AdminOrders */}
 			<AdminOrders orders={orders} />
 		</div>
