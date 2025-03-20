@@ -8,6 +8,7 @@ const OrderDetails = async ({ params }) => {
 	// console.log(response?.data);
 	return (
 		<div className="px-4 mt-24 lg:px-28">
+			<h1>Params {orderId}</h1>
 			<SpecificOrderDetails order={response?.data} />
 		</div>
 	);
