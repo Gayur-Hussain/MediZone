@@ -50,7 +50,7 @@ const ClientOrders = ({ orders }) => {
 								Method
 							</TableHead>
 							<TableHead>Amount</TableHead>
-							<TableHead>Order Date / Time</TableHead>
+							<TableHead>Order Date</TableHead>
 						</TableRow>
 					</TableHeader>
 					<TableBody>

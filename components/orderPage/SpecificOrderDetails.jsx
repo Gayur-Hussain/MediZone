@@ -2,8 +2,6 @@ import Image from "next/image";
 import React from "react";
 
 const SpecificOrderDetails = ({ order }) => {
-	// console.log(order);
-
 	// Function to return a color class based on the order status
 	const getStatusClass = (status) => {
 		switch (status) {
@@ -21,7 +19,7 @@ const SpecificOrderDetails = ({ order }) => {
 	};
 
 	return (
-		<div className="max-w-screen-xl mx-auto px-4 mb-10">
+		<div className="max-w-screen-xl mx-auto  mb-10">
 			{/* Order Overview */}
 			<div className="border-b pb-4 mb-6 ">
 				<h1 className="text-xl lg:text-3xl font-bold ">
@@ -41,6 +39,18 @@ const SpecificOrderDetails = ({ order }) => {
 						<span className={getStatusClass(order?.status)}>
 							{order?.status.charAt(0).toUpperCase() +
 								order?.status.slice(1)}
+						</span>
+					</p>
+					<p className="flex items-center gap-2">
+						<strong>Total Amount:</strong>
+						<span className="text-blue-500">
+							{order?.totalAmount}
+						</span>
+					</p>
+					<p className="flex items-center gap-2">
+						<strong>Products:</strong>
+						<span className="text-blue-500">
+							{order?.products.length}
 						</span>
 					</p>
 					{order?.tracking && (
@@ -66,7 +76,8 @@ const SpecificOrderDetails = ({ order }) => {
 								width={150}
 								height={180}
 								alt={product?.name}
-								className="object-contain"
+								className="object-contain w-auto h-auto"
+								priority
 							/>
 						</div>
 						<h2 className="text-lg font-semibold ">
@@ -95,11 +106,15 @@ const SpecificOrderDetails = ({ order }) => {
 					<p>
 						<strong>Shipping Address: </strong>"{" "}
 						{order?.deliveryAddress?.street},{" "}
-						{order?.deliveryAddress?.city}""
+						{order?.deliveryAddress?.city},{" "}
+						{order?.deliveryAddress?.state},{" "}
+						{order?.deliveryAddress?.zipCode},{" "}
+						{order?.deliveryAddress?.country}"
 					</p>
 					<p>
 						<strong>
-							Shipping Method: {"Local delivery or pickup"}
+							Shipping Method:{" "}
+							<span className="text-sm">Local delivery</span>
 						</strong>
 					</p>
 				</div>

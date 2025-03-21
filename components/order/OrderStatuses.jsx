@@ -20,7 +20,7 @@ const OrderStatuses = ({ orderCounts }) => {
 		{
 			name: "Completed",
 			count: orderCounts.Completed,
-			icon: <CheckCircle size={28} />,
+			icon: <CheckCircle size={28} className="text-sm" />,
 			bgColor: "bg-green-100 text-green-700", // Light green background with dark green text
 		},
 		{
@@ -32,15 +32,15 @@ const OrderStatuses = ({ orderCounts }) => {
 	];
 
 	return (
-		<div className="grid grid-cols-2 gap-4 ">
+		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:gap-5 gap-3 ">
 			{statusList.map((status, index) => (
 				<div
 					key={index}
-					className={`border h-28 flex flex-col justify-center items-center rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ${status.bgColor}`}
+					className={`border p-2 flex  justify-center items-center gap-3  rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ${status.bgColor}`}
 				>
 					{status.icon}
-					<h1 className="text-lg font-bold mt-2">{status.name}</h1>
-					<span className="text-2xl font-extrabold">
+					<h1 className="lg:text-lg font-bold">{status.name}</h1>
+					<span className="lg:text-2xl font-extrabold">
 						{status.count}
 					</span>
 				</div>

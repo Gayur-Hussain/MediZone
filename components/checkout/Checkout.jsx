@@ -179,7 +179,7 @@ const Checkout = ({ userId }) => {
 										<Label htmlFor="country">Country</Label>
 										<Input
 											id="country"
-											defaultValue="India"
+											defaultValue=""
 											{...register("country", {
 												required: "Country is required",
 											})}

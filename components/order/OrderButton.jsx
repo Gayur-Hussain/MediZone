@@ -49,7 +49,7 @@ const OrderButton = () => {
 					description: "Your order has been placed successfully.",
 				});
 				setTimeout(() => {
-					router.push("/"); // Redirect to home page
+					router.push("/orders"); // Redirect to home page
 				}, 2000);
 			} else {
 				toast({

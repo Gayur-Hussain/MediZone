@@ -26,7 +26,7 @@ export default function Sidebar() {
 	return (
 		<>
 			{/* Desktop Sidebar */}
-			<div className="hidden md:block fixed h-screen md:w-[250px] border-r bg-background p-4 mt-12">
+			<div className="hidden lg:block fixed h-screen md:w-[250px] border-r bg-background p-4 mt-12">
 				<div className="space-y-4">
 					<div className="space-y-2">
 						{navItems.map((item) => (
@@ -50,7 +50,7 @@ export default function Sidebar() {
 			</div>
 
 			{/* Mobile Sidebar */}
-			<div className="md:hidden fixed top-4 left-4 z-50">
+			<div className="lg:hidden fixed top-4 left-4 z-50">
 				<Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
 					<SheetTrigger asChild>
 						<Button variant="outline" size="icon" className="mt-10">
