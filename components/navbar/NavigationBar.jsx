@@ -30,9 +30,7 @@ const NavigationBar = ({ userDetails }) => {
 				) : null}
 				<ModeToggle />
 				<SignedOut>
-					<Button>
-						<SignInButton />
-					</Button>
+					<SignInButton className="bg-primary p-2 rounded-md px-4" />
 				</SignedOut>
 				<SignedIn>
 					{!userDetails || userDetails.role !== "admin" ? (

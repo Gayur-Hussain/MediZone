@@ -1,13 +1,14 @@
 import React from "react";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { fetchUserDetailsAction } from "@/actions/userAction";
+import { fetchUserDetailsAction, saveUserToDB } from "@/actions/userAction";
 import Checkout from "@/components/checkout/Checkout";
 import OrderButton from "@/components/order/OrderButton";
 
 const CheckOutPage = async () => {
 	const { userId } = await auth();
 	const userDetails = await fetchUserDetailsAction(userId);
+	await saveUserToDB();
 	userDetails?.data?.role === "admin"
 		? redirect("/dashboard/products")
 		: null;
