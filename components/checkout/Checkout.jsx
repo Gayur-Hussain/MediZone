@@ -20,6 +20,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCartQuantity } from "@/store/slices/cartSlice";
+import { IndianRupee } from "lucide-react";
 
 const Checkout = ({ userId }) => {
 	const { toast } = useToast();
@@ -297,8 +298,13 @@ const Checkout = ({ userId }) => {
 			<div>
 				{cartItems.map((item) => (
 					<div key={item._id}>
-						<p>{item.name}</p>
-						<p>Price: ${item.price}</p>
+						<p className="lg:text-xl">{item.name}</p>
+						<p className="flex items-center ">
+							<span>Price:</span>
+							<IndianRupee size={14} />
+
+							<span>{item.price}</span>
+						</p>
 						{/* Show low stock or out of stock */}
 						{item.stock === 0 ? (
 							<p className="text-red-500">Out of stock</p>
