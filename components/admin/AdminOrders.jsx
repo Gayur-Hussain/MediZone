@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/table";
 import { Clock, Settings, CheckCircle, XCircle } from "lucide-react";
 import Link from "next/link";
+import { formatDate } from "@/utils/helperFunction";
 
 export default function AdminOrders({ orders: initialOrders }) {
 	const [orders, setOrders] = useState(initialOrders);
@@ -158,6 +159,9 @@ export default function AdminOrders({ orders: initialOrders }) {
 								<TableHead className="hidden sm:table-cell w-[300px]">
 									Delivery Address
 								</TableHead>
+								<TableHead className="hidden sm:table-cell w-[300px]">
+									Order Date
+								</TableHead>
 								<TableHead className="w-[150px]">
 									Action
 								</TableHead>
@@ -188,6 +192,9 @@ export default function AdminOrders({ orders: initialOrders }) {
 										{order.deliveryAddress.state},{" "}
 										{order.deliveryAddress.zipCode},
 										{order.deliveryAddress.country}
+									</TableCell>
+									<TableCell>
+										{formatDate(order.createdAt)}
 									</TableCell>
 									<TableCell>
 										<div className="flex items-center gap-2">

@@ -3,7 +3,8 @@ import AdminOrders from "@/components/admin/AdminOrders";
 import { fetchOrdersAction } from "@/actions/orderAction";
 
 export default async function Orders() {
-	const orders = await fetchOrdersAction();
+	const response = await fetchOrdersAction();
+	const orders = await response.reverse();
 
 	if (!orders || orders.length === 0) {
 		return <p className="text-center mt-10">No orders found.</p>;
