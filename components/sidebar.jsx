@@ -18,7 +18,7 @@ export default function Sidebar() {
 	const [isSheetOpen, setIsSheetOpen] = useState(false);
 
 	const navItems = [
-		{ title: "Dashboard", href: "/dashboard" },
+		{ title: "Analytics", href: "/dashboard" },
 		{ title: "Products", href: "/dashboard/products" },
 		{ title: "Orders", href: "/dashboard/orders" },
 	];
